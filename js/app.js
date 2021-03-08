@@ -50,3 +50,4 @@ function CalculateConsumptionForArea(minCust, maxCust, avgCookiesCust, numberOfH
     }
   };
 }
+
