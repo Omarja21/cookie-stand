@@ -91,7 +91,7 @@ function testing(event){
   let maxCust=event.target.max.value;
   let avgCookiesCust=event.target.avg.value;
   let newCity= new CalculateConsumptionForArea(NameOfArea, minCust, maxCust,avgCookiesCust);
-  console.log(newCity.tablebody());
+  newCity.tablebody();
 
 }
 
