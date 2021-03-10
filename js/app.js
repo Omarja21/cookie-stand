@@ -116,6 +116,5 @@ function makeTable(){
   }
   tableFooterMaker();
 }
-
 makeTable();
 
