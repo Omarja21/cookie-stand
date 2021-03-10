@@ -1,5 +1,7 @@
 'use strict';
 let main=document.getElementById('test');
+let table=document.getElementById('table');
+let hours=['6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm'];
 
 function CalculateConsumptionForArea(NameOfArea,minCust, maxCust, avgCookiesCust){
   this.NameOfArea=NameOfArea;
@@ -26,56 +28,36 @@ function CalculateConsumptionForArea(NameOfArea,minCust, maxCust, avgCookiesCust
   this.consumptionPerHour=function(AmountOfCookiesPerHour, totalOfCookies){
     let unorderedList= document.createElement('ul');
     unorderedList.innerHTML= NameOfArea;
-    let firstHour= document.createElement('li');
-    let secondHour= document.createElement('li');
-    let thirdHour= document.createElement('li');
-    let forthHour= document.createElement('li');
-    let fifthHour= document.createElement('li');
-    let sixthHour= document.createElement('li');
-    let seventhHour= document.createElement('li');
-    let eighthHour= document.createElement('li');
-    let ninthHour= document.createElement('li');
-    let tenthHour= document.createElement('li');
-    let eleventhHour= document.createElement('li');
-    let twelvthtHour= document.createElement('li');
-    let thirteenthHour= document.createElement('li');
-    let forteenthHour= document.createElement('li');
+    this.hour=['6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm'];
+    for(let i=0; i<hours.length; i++){
+      let list= document.createElement('li');
+      list.innerText= this.hour[i]+':  '+AmountOfCookiesPerHour[i];
+      unorderedList.appendChild(list);
+    }
     let total= document.createElement('li');
-    unorderedList.appendChild(firstHour);
-    unorderedList.appendChild(secondHour);
-    unorderedList.appendChild(thirdHour);
-    unorderedList.appendChild(forthHour);
-    unorderedList.appendChild(fifthHour);
-    unorderedList.appendChild(sixthHour);
-    unorderedList.appendChild(seventhHour);
-    unorderedList.appendChild(eighthHour);
-    unorderedList.appendChild(ninthHour);
-    unorderedList.appendChild(tenthHour);
-    unorderedList.appendChild(eleventhHour);
-    unorderedList.appendChild(twelvthtHour);
-    unorderedList.appendChild(thirteenthHour);
-    unorderedList.appendChild(forteenthHour);
     unorderedList.appendChild(total);
-    firstHour.innerText= '6am: '+AmountOfCookiesPerHour[0];
-    secondHour.innerText= '7am: '+AmountOfCookiesPerHour[1];
-    thirdHour.innerText= '8am: '+AmountOfCookiesPerHour[2];
-    forthHour.innerText= '9am: '+AmountOfCookiesPerHour[3];
-    fifthHour.innerText= '10am: '+AmountOfCookiesPerHour[4];
-    sixthHour.innerText= '11am: '+AmountOfCookiesPerHour[5];
-    seventhHour.innerText= '12am: '+AmountOfCookiesPerHour[6];
-    eighthHour.innerText= '1pm: '+AmountOfCookiesPerHour[7];
-    ninthHour.innerText= '2pm: '+AmountOfCookiesPerHour[8];
-    tenthHour.innerText= '3pm: '+AmountOfCookiesPerHour[9];
-    eleventhHour.innerText= '4pm: '+AmountOfCookiesPerHour[10];
-    twelvthtHour.innerText= '5pm: '+AmountOfCookiesPerHour[11];
-    thirteenthHour.innerText= '6pm: '+AmountOfCookiesPerHour[12];
-    forteenthHour.innerText= '7pm: '+AmountOfCookiesPerHour[13];
     total.innerText= 'total: '+totalOfCookies;
     main.appendChild(unorderedList);
+
   };
   this.callConsumption=function(){
     this.fillCookiePerHour();
     this.consumptionPerHour(this.cookiePerHour, this.totalOfCookies);
+  };
+  this.tablebody=function(){
+    let trow=document.createElement('tr');
+    let tdata=document.createElement('td');
+    tdata.innerText=NameOfArea;
+    trow.appendChild(tdata);
+    for(let i=0; i<hours.length; i++){
+      tdata=document.createElement('td');
+      tdata.innerText=this.cookiePerHour[i];
+      trow.appendChild(tdata);
+    }
+    tdata=document.createElement('td');
+    tdata.innerText=this.totalOfCookies;
+    trow.appendChild(tdata);
+    table.appendChild(trow);
   };
 }
 
@@ -89,16 +71,51 @@ let city=[seattle, Tokyo, Dubai, Paris,Lima];
 let totalForEachHourOfAllCities=[0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let totalCookiesOfAllCities=0;
 for(let i=0;i<5; i++){
-  city[i].callConsumption();
+  city[i].fillCookiePerHour();
   totalCookiesOfEachCity[i]=city[i].totalOfCookies;
   totalCookiesOfAllCities+=city[i].totalOfCookies;
   for (let j=0; j<14; j++){
     totalForEachHourOfAllCities[j]+= city[i].cookiePerHour[j];
   }
 }
-console.log(totalCookiesOfAllCities);
-for(let i=0; i<14; i++){
-  console.log(totalForEachHourOfAllCities[i]);
 
+function tableHeaderMaker(){
+  let trow=document.createElement('tr');
+  let tdata=document.createElement('td');
+  tdata.innerText= 'Cities/Hours';
+  trow.appendChild(tdata);
+  for(let i=0; i<hours.length; i++){
+    let tdata=document.createElement('td');
+    tdata.innerHTML=hours[i];
+    trow.appendChild(tdata);
+  }
+  let tdata2=document.createElement('td');
+  tdata2.innerHTML=('Daily Location Total');
+  trow.appendChild(tdata2);
+  table.appendChild(trow);
 }
+function tableFooterMaker(){
+  let trow=document.createElement('tr');
+  let tdata=document.createElement('td');
+  tdata.innerText='totals';
+  trow.appendChild(tdata);
+  for(let i=0; i<hours.length; i++){
+    tdata=document.createElement('td');
+    tdata.innerText=totalForEachHourOfAllCities[i];
+    trow.appendChild(tdata);
+  }
+  tdata=document.createElement('td');
+  tdata.innerText=totalCookiesOfAllCities;
+  trow.appendChild(tdata);
+  table.appendChild(trow);
+}
+function makeTable(){
+  tableHeaderMaker();
+  for (let i=0; i<city.length; i++){
+    city[i].tablebody();
+  }
+  tableFooterMaker();
+}
+
+
 
