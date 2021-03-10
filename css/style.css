@@ -26,8 +26,6 @@ body{
     background-image: url("/img/aerial-view-of-landaa-giraavaru.jpg");
     background-repeat: repeat-x;
 }
-#table { 
-  color: blue;
-  border: 5px black;
-  border-collapse: collapse;
+#table{
+  border: 5px;
 }

@@ -117,5 +117,5 @@ function makeTable(){
   tableFooterMaker();
 }
 
-
+makeTable();
 
