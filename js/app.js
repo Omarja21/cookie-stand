@@ -139,5 +139,3 @@ function makeTable(){
   tableFooterMaker();
 }
 makeTable();
-
-
