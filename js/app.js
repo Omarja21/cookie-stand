@@ -29,10 +29,9 @@ function CalculateConsumptionForArea(NameOfArea,minCust, maxCust, avgCookiesCust
   this.consumptionPerHour=function(AmountOfCookiesPerHour, totalOfCookies){
     let unorderedList= document.createElement('ul');
     unorderedList.innerHTML= NameOfArea;
-    this.hour=['6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm'];
     for(let i=0; i<hours.length; i++){
       let list= document.createElement('li');
-      list.innerText= this.hour[i]+':  '+AmountOfCookiesPerHour[i];
+      list.innerText= hours[i]+':  '+AmountOfCookiesPerHour[i];
       unorderedList.appendChild(list);
     }
     let total= document.createElement('li');
@@ -61,39 +60,45 @@ function CalculateConsumptionForArea(NameOfArea,minCust, maxCust, avgCookiesCust
     table.appendChild(trow);
   };
 }
-
 let seattle= new CalculateConsumptionForArea('seattle',23,65,6.3);
 let Tokyo= new CalculateConsumptionForArea('Tokyo',3, 24, 1.2);
 let Dubai= new CalculateConsumptionForArea('Dubai',11,38,3.7);
 let Paris= new CalculateConsumptionForArea('Paris',20,38,2.3);
 let Lima= new CalculateConsumptionForArea('Lima',2,16,4.6);
-let aqaba=new CalculateConsumptionForArea('aqaba',20,25,3.3);
-let doha= new CalculateConsumptionForArea('Doha', 17,20,1.5);
-
 let totalCookiesOfEachCity=[];
-let city=[seattle, Tokyo, Dubai, Paris,Lima,aqaba, doha];
+let city=[seattle, Tokyo, Dubai, Paris,Lima];
 
-let totalForEachHourOfAllCities=[0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-let totalCookiesOfAllCities=0;
-for(let i=0;i<city.length; i++){
-  city[i].fillCookiePerHour();
-  totalCookiesOfEachCity[i]=city[i].totalOfCookies;
-  totalCookiesOfAllCities+=city[i].totalOfCookies;
-  for (let j=0; j<14; j++){
-    totalForEachHourOfAllCities[j]+= city[i].cookiePerHour[j];
-  }
-}
 form.addEventListener('submit', testing);
 function testing(event){
   event.preventDefault();
   let NameOfArea= event.target.cityName.value;
-  let minCust=event.target.min.value;
-  let maxCust=event.target.max.value;
-  let avgCookiesCust=event.target.avg.value;
-  let newCity= new CalculateConsumptionForArea(NameOfArea, minCust, maxCust,avgCookiesCust);
+  let min=event.target.min.value;
+  let max=event.target.max.value;
+  let avg=event.target.avg.value;
+  let newCity= new CalculateConsumptionForArea(NameOfArea, min, max,avg);
+  city.push(newCity);
+  table.deleteRow(table.rows.length-1);
+  newCity.fillCookiePerHour();
   newCity.tablebody();
-
+  totalCookiesOfAllCities+=newCity.totalOfCookies;
+  for (let j=0; j<14; j++){
+    totalForEachHourOfAllCities[j]+= newCity.cookiePerHour[j];
+  }
+  tableFooterMaker();
 }
+let totalForEachHourOfAllCities=[0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+let totalCookiesOfAllCities=0;
+function calcTotal(){
+  for(let i=0;i<city.length; i++){
+    city[i].fillCookiePerHour();
+    totalCookiesOfEachCity[i]=city[i].totalOfCookies;
+    totalCookiesOfAllCities+=city[i].totalOfCookies;
+    for (let j=0; j<14; j++){
+      totalForEachHourOfAllCities[j]+= city[i].cookiePerHour[j];
+    }
+  }
+}
+
 
 function tableHeaderMaker(){
   let trow=document.createElement('tr');
@@ -127,13 +132,12 @@ function tableFooterMaker(){
 }
 function makeTable(){
   tableHeaderMaker();
+  calcTotal();
   for (let i=0; i<city.length; i++){
     city[i].tablebody();
   }
   tableFooterMaker();
 }
 makeTable();
-
-
 
 
