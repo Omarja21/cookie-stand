@@ -28,7 +28,7 @@ img{
 
 }  
 body{
-    background-image: url("/img/aerial-view-of-landaa-giraavaru.jpg");
+   background: rgb(144, 179, 231);
 }
 #Hero{
   height: 800px;
